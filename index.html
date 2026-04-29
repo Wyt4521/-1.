@@ -3,100 +3,207 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>伊德格拉希尔 - 世界观设定站</title>
-    <!-- 引入图标库 (可选，为了好看的小图标) -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <!-- 1. 修改网页标题 -->
+    <title>伊德格拉希尔-设定</title>
     <style>
-        /* --- 这里是我们稍后要写的 CSS 样式，先留空，或者直接复制下面的基础样式 --- */
-        body { margin: 0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background: #f4f6f8; display: flex; min-height: 100vh; }
-        /* 侧边栏 */
-        .sidebar { width: 250px; background: #2c3e50; color: white; position: fixed; height: 100%; overflow-y: auto; }
-        .sidebar-header { padding: 20px; font-size: 1.5em; font-weight: bold; border-bottom: 1px solid #34495e; text-align: center; }
-        .menu-item { padding: 15px 20px; display: block; color: #ecf0f1; text-decoration: none; transition: 0.3s; }
-        .menu-item:hover { background: #34495e; }
-        .menu-item i { margin-right: 10px; width: 20px; text-align: center; }
-        /* 主内容区 */
-        .main-content { margin-left: 250px; padding: 20px; width: 100%; }
-        .top-bar { background: white; padding: 15px 30px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 1.5em; font-weight: bold; color: #2980b9; font-family: serif; }
-        .search-box input { padding: 8px 15px; border: 1px solid #ddd; border-radius: 20px; width: 200px; outline: none; }
-        /* 卡片网格 */
-        .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
-        .card { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.05); transition: transform 0.2s; }
-        .card:hover { transform: translateY(-5px); }
-        .card-img { width: 100%; height: 180px; object-fit: cover; background-color: #eee; }
-        .card-body { padding: 15px; }
-        .card-title { margin: 0 0 10px; font-size: 1.2em; color: #2c3e50; }
-        .card-text { color: #7f8c8d; font-size: 0.9em; line-height: 1.5; }
-        .tag { background: #e0e0e0; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; color: #555; margin-right: 5px; }
+        /* 基础样式重置 */
+        body { margin: 0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background: #f0f2f5; display: flex; min-height: 100vh; color: #333; }
 
-        /* 手机端适配 */
+        /* 侧边栏样式 */
+        .sidebar {
+            width: 250px;
+            background: #2c3e50; /* 深蓝色背景 */
+            color: white;
+            position: fixed;
+            height: 100%;
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            background: #1a252f;
+            text-align: center;
+            border-bottom: 1px solid #34495e;
+        }
+
+        .sidebar-header h2 { margin: 0; font-size: 1.2rem; letter-spacing: 2px; }
+
+        .nav-links { list-style: none; padding: 0; margin: 0; }
+
+        .nav-links li { border-bottom: 1px solid #34495e; }
+
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            color: #ecf0f1;
+            text-decoration: none;
+            transition: background 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover { background: #34495e; color: #fff; }
+
+        .nav-links i { margin-right: 10px; width: 20px; text-align: center; }
+
+        /* 主内容区域 */
+        .main-content {
+            flex: 1;
+            margin-left: 250px; /* 留出侧边栏的位置 */
+            padding: 30px;
+            width: calc(100% - 250px);
+        }
+
+        /* 顶部横幅 */
+        .hero {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 4px solid #3498db; /* 蓝色点缀 */
+        }
+
+        .hero h1 { margin: 0; color: #2c3e50; font-size: 2.5rem; letter-spacing: 3px; }
+        .hero p { color: #7f8c8d; margin-top: 10px; font-size: 1.1rem; }
+
+        /* 卡片网格布局 */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            background-color: #ddd; /* 图片加载前的占位色 */
+        }
+
+        .card-body { padding: 20px; flex: 1; display: flex; flex-direction: column; }
+
+        .card-tag {
+            align-self: flex-start;
+            background: #eaf2f8;
+            color: #2980b9;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .card-title { margin: 0 0 10px 0; font-size: 1.2rem; color: #2c3e50; }
+
+        .card-excerpt {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            flex: 1;
+        }
+
+        /* 移动端适配 */
         @media (max-width: 768px) {
-            .sidebar { width: 60px; }
-            .sidebar-header span, .menu-text { display: none; }
-            .menu-item { text-align: center; padding: 15px 0; }
-            .menu-item i { margin: 0; font-size: 1.2em; }
-            .main-content { margin-left: 60px; }
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.active { transform: translateX(0); }
+            .main-content { margin-left: 0; width: 100%; padding: 20px; }
+            .mobile-toggle { display: block; position: fixed; top: 15px; left: 15px; z-index: 1100; background: #2c3e50; color: white; border: none; padding: 10px; border-radius: 5px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- 左侧边栏 -->
+    <!-- 移动端菜单按钮 -->
+    <button class="mobile-toggle" onclick="toggleMenu()" style="display:none;"><i class="fas fa-bars"></i> 菜单</button>
+
+    <!-- 侧边栏 -->
     <nav class="sidebar">
         <div class="sidebar-header">
-            <span>GOSHMELO</span>
+            <!-- 2. 修改侧边栏顶部标题 -->
+            <h2>伊德格拉希尔</h2>
         </div>
-        <a href="#" class="menu-item"><i class="fas fa-home"></i> <span class="menu-text">首页</span></a>
-        <a href="#" class="menu-item"><i class="fas fa-info-circle"></i> <span class="menu-text">关于</span></a>
-        <a href="#" class="menu-item"><i class="fas fa-globe"></i> <span class="menu-text">世界观</span></a>
-        <a href="#" class="menu-item"><i class="fas fa-users"></i> <span class="menu-text">人物档案</span></a>
-        <a href="#" class="menu-item"><i class="fas fa-book"></i> <span class="menu-text">主线故事</span></a>
+        <ul class="nav-links">
+            <li><a href="#"><i class="fas fa-home"></i> 首页</a></li>
+            <li><a href="#"><i class="fas fa-book"></i> 世界观</a></li>
+            <li><a href="#"><i class="fas fa-users"></i> 种族设定</a></li>
+            <li><a href="#"><i class="fas fa-map-marked-alt"></i> 地理志</a></li>
+            <li><a href="#"><i class="fas fa-history"></i> 历史年表</a></li>
+            <li><a href="#"><i class="fas fa-dragon"></i> 生物图鉴</a></li>
+        </ul>
     </nav>
 
-    <!-- 右侧主内容 -->
+    <!-- 主内容区 -->
     <main class="main-content">
-        <!-- 顶部栏 -->
-        <header class="top-bar">
-            <div class="logo">GOSHMELO</div>
-            <div class="search-box">
-                <input type="text" placeholder="搜索设定...">
-            </div>
+
+        <!-- 顶部介绍 -->
+        <header class="hero">
+            <!-- 3. 修改大标题和副标题 -->
+            <h1>伊德格拉希尔</h1>
+            <p>破碎与重生的幻想大陆档案</p>
         </header>
 
-        <!-- 内容区域：JS将把内容渲染在这里 -->
-        <div id="app" class="grid-container">
-            <!-- 内容会被自动插入到这里 -->
+        <!-- 内容卡片区域 (JS会自动往这里填充内容) -->
+        <div id="content-grid" class="grid-container">
+            <!-- 这里的卡片将由 posts.js 生成 -->
         </div>
+
     </main>
 
     <!-- 引入数据文件 -->
     <script src="posts.js"></script>
 
+    <!-- 脚本：用来把数据变成网页卡片 -->
     <script>
-        // 获取容器
-        const app = document.getElementById('app');
+        // 简单的脚本：遍历 posts 数组，生成 HTML
+        const grid = document.getElementById('content-grid');
 
-        // 遍历 posts.js 里的数据并生成 HTML
-        postsData.forEach(post => {
-            const card = document.createElement('div');
-            card.className = 'card';
+        // 检查 posts 是否存在
+        if (typeof posts !== 'undefined') {
+            posts.forEach(post => {
+                // 创建卡片元素
+                const card = document.createElement('div');
+                card.className = 'card';
 
-            // 判断是否有图片，如果没有就用默认占位图
-            const imgUrl = post.image ? post.image : 'https://via.placeholder.com/300x180?text=No+Image';
+                // 如果有图片，显示图片，否则显示默认占位图
+                const imgHtml = post.image
+                    ? `<img src="${post.image}" class="card-image" alt="${post.title}">`
+                    : `<div class="card-image" style="background:#eee; display:flex; align-items:center; justify-content:center; color:#999;">No Image</div>`;
 
-            card.innerHTML = `
-                <img src="${imgUrl}" class="card-img" alt="${post.title}">
-                <div class="card-body">
-                    <h3 class="card-title">${post.title}</h3>
-                    <div>
-                        ${post.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                card.innerHTML = `
+                    ${imgHtml}
+                    <div class="card-body">
+                        <span class="card-tag">${post.category || '通用'}</span>
+                        <h3 class="card-title">${post.title}</h3>
+                        <p class="card-excerpt">${post.content}</p>
                     </div>
-                    <p class="card-text">${post.content}</p>
-                </div>
-            `;
-            app.appendChild(card);
-        });
+                `;
+
+                grid.appendChild(card);
+            });
+        } else {
+            grid.innerHTML = '<p>暂无数据，请检查 posts.js</p>';
+        }
     </script>
 
 </body>
