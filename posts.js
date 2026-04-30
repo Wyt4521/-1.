@@ -66,3 +66,11 @@ const postsData = [
         ]
     }
 ];
+
+// 轮播图数据
+const carouselData = [
+    { image: "./images/carousel/char.png", title: "角色档案", link: "#char" },
+    { image: "./images/carousel/quest.png", title: "主线故事", link: "#quest" },
+    { image: "./images/carousel/race.png", title: "种族设定", link: "#race" },
+    { image: "./images/carousel/world.png", title: "世界观", link: "#world" }
+];
