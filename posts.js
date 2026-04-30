@@ -15,7 +15,7 @@ const postsData = [
             { title: "思佩丝", anchor: "character-spes", avatar: "./images/avatars/spes.png" },
             { title: "奥德拉", anchor: "character-aodela", avatar: "./images/avatars/aodela.png" },
             { title: "德斯蒂尼", anchor: "character-destine", avatar: "./images/avatars/destine.png" },
-            { title: "塞尔菲亚", anchor: "character-saierfeiya", avatar: "./images/avatars/saierfeiya.png" },
+            { title: "赛尔维娜", anchor: "character-selvina", avatar: "./images/avatars/Selvina.png" },
             { title: "严缨", anchor: "character-yanying", avatar: "./images/avatars/yanying.png" }
         ]
     },
