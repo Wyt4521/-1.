@@ -21,6 +21,154 @@
             background-repeat: no-repeat;
         }
 
+        /* --- 顶部导航栏样式 --- */
+        .top-nav {
+            background: rgba(29, 2, 44, 0.9);
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .top-nav .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        }
+
+        .top-nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .top-nav-links a {
+            color: #ededed;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+
+        .top-nav-links a:hover {
+            background-color: #907787;
+            color: rgb(188, 163, 163);
+        }
+
+        .top-nav-category {
+            color: #fff;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            padding: 8px 15px;
+            border-radius: 4px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .top-nav-category:hover {
+            background-color: #907787;
+        }
+
+        /* --- 轮播图样式 --- */
+        .carousel-container {
+            position: relative;
+            max-width: 1200px;
+            margin: 20px auto;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            position: relative;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .carousel-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            padding: 20px;
+            color: #fff;
+        }
+
+        .carousel-caption h3 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .carousel-caption a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .carousel-dots {
+            position: absolute;
+            bottom: 10px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .carousel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+            border: none;
+        }
+
+        .carousel-dot.active {
+            background: #fff;
+        }
+
+        .carousel-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.5);
+            color: #fff;
+            border: none;
+            padding: 15px;
+            cursor: pointer;
+            font-size: 20px;
+            border-radius: 50%;
+        }
+
+        .carousel-arrow:hover {
+            background: rgba(0,0,0,0.8);
+        }
+
+        .carousel-prev {
+            left: 10px;
+        }
+
+        .carousel-next {
+            right: 10px;
+        }
+
+        /* --- 主内容区样式 --- */
         .container {
             display: flex;
             max-width: 1200px;
@@ -28,140 +176,9 @@
             padding: 20px;
         }
 
-        /* --- 侧边栏样式修改开始 --- */
+        /* 移除旧的侧边栏样式，改用顶部导航 */
         .sidebar {
-            /* 修正：将 100x 改为 200px */
-            width: 200px;
-            transition: all 0.3s ease;
-            overflow: hidden;
-            flex-shrink: 0;
-            padding-right: 20px;
-            border-right: 1px solid #ededed;
-            margin-right: 20px;
-            position: relative;
-        }
-
-        .sidebar.collapsed {
-            width: 0;
-            margin-right: 0;
-            padding-right: 0;
-            border-right: none;
-        }
-
-        .toggle-btn {
-            position: absolute;
-            top: 0;
-            right: -40px;
-            width: 32px;
-            height: 32px;
-            background: #fff;
-            border: 1px solid #ddd;
-            border-radius: 0 4px 4px 0;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            color: #555;
-            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-            z-index: 10;
-            transition: background 0.2s;
-        }
-        .toggle-btn:hover {
-            background: #f0f0f0;
-        }
-
-        .sidebar.collapsed .toggle-btn {
-            right: -32px;
-        }
-
-        .nav-links {
-            opacity: 1;
-            transition: opacity 0.2s ease;
-        }
-        .sidebar.collapsed .nav-links {
             display: none;
-        }
-        /* --- 侧边栏样式修改结束 --- */
-
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #ffffff;
-            margin-bottom: 20px;
-            display: block;
-            text-decoration: none;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
-        }
-
-        .nav-links a {
-            display: flex;
-            color: #ededed;
-            text-decoration: none;
-            margin-bottom: 10px;
-            padding: 8px 10px;
-            border-radius: 4px;
-            transition: background 0.2s;
-            cursor: pointer; /* 鼠标变手型 */
-        }
-
-        .nav-links a:hover {
-            background-color: #907787;
-            color: rgb(188, 163, 163);
-        }
-
-        /* 大标题样式 */
-        .nav-category {
-            color: #fff;
-            font-weight: bold;
-            font-size: 14px;
-            padding: 8px 10px;
-            margin-bottom: 5px;
-            cursor: pointer;
-            display: block;
-            text-decoration: none;
-        }
-
-        .nav-category:hover {
-            color: #e0c0c0;
-        }
-
-        /* 小标题样式 */
-        .nav-subitem {
-            display: block;
-            color: #b0b0b0;
-            font-size: 12px;
-            padding: 5px 10px 5px 25px;
-            text-decoration: none;
-            transition: all 0.2s;
-            cursor: pointer;
-        }
-
-        .nav-subitem:hover {
-            color: #e0c0c0;
-            background-color: rgba(144, 119, 135, 0.3);
-        }
-
-        /* 小标题容器 */
-        .nav-subitems {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-        }
-
-        .nav-subitems.expanded {
-            max-height: 500px;
-        }
-
-        .nav-category.has-subitems::after {
-            content: '▼';
-            font-size: 8px;
-            margin-left: 5px;
-            transition: transform 0.3s;
-        }
-
-        .nav-category.has-subitems.expanded::after {
-            transform: rotate(180deg);
         }
 
         .content {
@@ -200,16 +217,27 @@
 </head>
 <body>
 
-    <div class="container">
-        <!-- 左侧侧边栏 -->
-        <aside class="sidebar" id="sidebar">
-            <div class="toggle-btn" onclick="toggleSidebar()">☰</div>
-            <a href="#" class="logo">MUNE</a>
-            <nav class="nav-links" id="navLinks">
-                <!-- 导航内容将由 JavaScript 动态生成 -->
-            </nav>
-        </aside>
+    <!-- 顶部导航栏 -->
+    <nav class="top-nav">
+        <a href="#" class="logo">MUNE</a>
+        <div class="top-nav-links" id="topNavLinks">
+            <!-- 导航内容将由 JavaScript 动态生成 -->
+        </div>
+    </nav>
 
+    <!-- 轮播图 -->
+    <div class="carousel-container">
+        <div class="carousel-track" id="carouselTrack">
+            <!-- 轮播图内容将由 JavaScript 动态生成 -->
+        </div>
+        <button class="carousel-arrow carousel-prev" onclick="prevSlide()">❮</button>
+        <button class="carousel-arrow carousel-next" onclick="nextSlide()">❯</button>
+        <div class="carousel-dots" id="carouselDots">
+            <!-- 轮播图圆点将由 JavaScript 动态生成 -->
+        </div>
+    </div>
+
+    <div class="container">
         <!-- 右侧主要内容 -->
         <main class="content">
             <h1>Yggdrasil</h1>
@@ -224,20 +252,7 @@
             <!-- 修改：添加 id="char" -->
             <div class="card" id="char">
                 <h2>角色档案</h2>
-                <h3 id="character-dominic"><img src="./images/avatars/dominic.png" alt="多尼米克" class="character-avatar">多尼米克</h3>
-                <p>在此处添加多尼米克图文内容...</p>
-                <h3 id="character-bubujian"><img src="./images/avatars/bubujian.png" alt="卜不见" class="character-avatar">卜不见</h3>
-                <p>在此处添加卜不见图文内容...</p>
-                <h3 id="character-spes"><img src="./images/avatars/spes.png" alt="思佩丝" class="character-avatar">思佩丝</h3>
-                <p>在此处添加思佩丝图文内容...</p>
-                <h3 id="character-aodela"><img src="./images/avatars/aodela.png" alt="奥德拉" class="character-avatar">奥德拉</h3>
-                <p>在此处添加奥德拉图文内容...</p>
-                <h3 id="character-destine"><img src="./images/avatars/destine.png" alt="德斯蒂尼" class="character-avatar">德斯蒂尼</h3>
-                <p>在此处添加德斯蒂尼图文内容...</p>
-                <h3 id="character-selvina"><img src="./images/avatars/Selvina.png" alt="赛尔维娜" class="character-avatar">赛尔维娜</h3>
-                <p>在此处添加图文内容...</p>
-                <h3 id="character-yanying"><img src="./images/avatars/yanying.png" alt="严缨" class="character-avatar">严缨</h3>
-                <p>在此处添加严缨图文内容...</p>
+                <p><a href="characters.html">点击查看全部角色 →</a></p>
             </div>
 
             <!-- 修改：添加 id="quest" -->
@@ -304,14 +319,9 @@
 
     <script src="posts.js"></script>
     <script>
-        const sidebar = document.getElementById('sidebar');
-        function toggleSidebar() {
-            sidebar.classList.toggle('collapsed');
-        }
-
-        // 动态生成侧边栏导航
-        function renderNav() {
-            const navLinks = document.getElementById('navLinks');
+        // 动态生成顶部导航
+        function renderTopNav() {
+            const topNavLinks = document.getElementById('topNavLinks');
             if (typeof postsData === 'undefined') {
                 console.error('posts.js 未加载或数据格式错误');
                 return;
@@ -320,40 +330,102 @@
             let html = '';
             postsData.forEach(item => {
                 const hasSubItems = item.subItems && item.subItems.length > 0;
-                const categoryClass = hasSubItems ? 'nav-category has-subitems' : 'nav-category';
                 
                 if (hasSubItems) {
-                    // 有小标题的大标题
+                    // 有小标题的大标题 - 点击可跳转
                     html += `
-                        <div class="${categoryClass}" onclick="toggleSubItems('${item.category}')">
+                        <a href="#${item.category}" class="top-nav-category">
                             ${item.title}
-                        </div>
-                        <div class="nav-subitems" id="sub-${item.category}">
-                            ${item.subItems.map(sub => 
-                                `<a class="nav-subitem" href="#${sub.anchor}">${sub.title}</a>`
-                            ).join('')}
-                        </div>
+                        </a>
                     `;
                 } else {
                     // 没有小标题的大标题
-                    html += `<a class="${categoryClass}" href="#${item.category}">${item.title}</a>`;
+                    html += `<a href="#${item.category}">${item.title}</a>`;
                 }
             });
-            navLinks.innerHTML = html;
+            topNavLinks.innerHTML = html;
         }
 
-        // 展开/收起小标题
-        function toggleSubItems(categoryId) {
-            const subItems = document.getElementById(`sub-${categoryId}`);
-            const category = document.querySelector(`.nav-category[onclick="toggleSubItems('${categoryId}')"]`);
-            if (subItems && category) {
-                subItems.classList.toggle('expanded');
-                category.classList.toggle('expanded');
+        // 动态生成轮播图
+        function renderCarousel() {
+            const carouselTrack = document.getElementById('carouselTrack');
+            const carouselDots = document.getElementById('carouselDots');
+            
+            if (typeof carouselData === 'undefined') {
+                console.error('carouselData 未定义');
+                return;
             }
+
+            // 生成轮播图幻灯片
+            let slidesHtml = '';
+            carouselData.forEach((item, index) => {
+                slidesHtml += `
+                    <div class="carousel-slide">
+                        <a href="${item.link}">
+                            <img src="${item.image}" alt="${item.title}">
+                            <div class="carousel-caption">
+                                <h3>${item.title}</h3>
+                            </div>
+                        </a>
+                    </div>
+                `;
+            });
+            carouselTrack.innerHTML = slidesHtml;
+
+            // 生成轮播图圆点
+            let dotsHtml = '';
+            carouselData.forEach((item, index) => {
+                dotsHtml += `<button class="carousel-dot ${index === 0 ? 'active' : ''}" onclick="goToSlide(${index})"></button>`;
+            });
+            carouselDots.innerHTML = dotsHtml;
         }
 
-        // 页面加载完成后渲染导航
-        document.addEventListener('DOMContentLoaded', renderNav);
+        // 轮播图控制
+        let currentSlide = 0;
+        const totalSlides = carouselData ? carouselData.length : 0;
+
+        function updateCarousel() {
+            const track = document.getElementById('carouselTrack');
+            track.style.transform = `translateX(-${currentSlide * 100}%)`;
+            
+            // 更新圆点状态
+            const dots = document.querySelectorAll('.carousel-dot');
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateCarousel();
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            updateCarousel();
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateCarousel();
+        }
+
+        // 自动轮播
+        let autoPlayInterval;
+        function startAutoPlay() {
+            autoPlayInterval = setInterval(nextSlide, 5000);
+        }
+
+        function stopAutoPlay() {
+            clearInterval(autoPlayInterval);
+        }
+
+        // 页面加载完成后渲染
+        document.addEventListener('DOMContentLoaded', function() {
+            renderTopNav();
+            renderCarousel();
+            startAutoPlay();
+        });
     </script>
 
 </body>
