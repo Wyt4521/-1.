@@ -5,14 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yggdrasil - 设定</title>
     <style>
+        /* 新增：让整个页面滚动更平滑 */
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             margin: 0;
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             background-color: #ffffff;
-
-            /* 1. 设置背景图片 */
             background-image: url('./images/indexBackground.png');
-            /* 2. 关键样式 */
             background-size: cover;
             background-attachment: fixed;
             background-position: center;
@@ -28,33 +30,28 @@
 
         /* --- 侧边栏样式修改开始 --- */
         .sidebar {
-            /* 原始固定宽度 */
-            width: 100x;
-            /* 添加过渡动画，让宽度变化更平滑 */
+            /* 修正：将 100x 改为 200px */
+            width: 200px;
             transition: all 0.3s ease;
-            overflow: hidden; /* 隐藏收起时超出的内容 */
+            overflow: hidden;
             flex-shrink: 0;
-            
-            /* 原有样式保留 */
             padding-right: 20px;
             border-right: 1px solid #ededed;
             margin-right: 20px;
-            position: relative; /* 为了让按钮定位 */
+            position: relative;
         }
 
-        /* 新增：收起状态下的样式 */
         .sidebar.collapsed {
-            width: 0; /* 宽度变为0 */
-            margin-right: 0; /* 去掉右边距 */
+            width: 0;
+            margin-right: 0;
             padding-right: 0;
             border-right: none;
         }
 
-        /* 新增：切换按钮样式 */
         .toggle-btn {
             position: absolute;
             top: 0;
-            right: -40px; /* 放在侧边栏外面一点 */
+            right: -40px;
             width: 32px;
             height: 32px;
             background: #fff;
@@ -74,19 +71,16 @@
             background: #f0f0f0;
         }
 
-        /* 当侧边栏收起时，把按钮移回来一点，或者保持原位均可 */
         .sidebar.collapsed .toggle-btn {
             right: -32px;
         }
 
-        /* 新增：控制菜单链接的显隐 */
         .nav-links {
             opacity: 1;
             transition: opacity 0.2s ease;
         }
-        /* 收起时隐藏文字链接 */
         .sidebar.collapsed .nav-links {
-            display: none; /* 直接隐藏，防止占位 */
+            display: none;
         }
         /* --- 侧边栏样式修改结束 --- */
 
@@ -97,19 +91,18 @@
             margin-bottom: 20px;
             display: block;
             text-decoration: none;
-            /* 增加一点文字阴影，防止背景图太花看不清白字 */
             text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
         }
 
         .nav-links a {
-            
             display: flex;
             color: #ededed;
             text-decoration: none;
             margin-bottom: 10px;
-            padding: 8px 10px; /* 稍微增加一点高度 */
+            padding: 8px 10px;
             border-radius: 4px;
             transition: background 0.2s;
+            cursor: pointer; /* 鼠标变手型 */
         }
 
         .nav-links a:hover {
@@ -119,7 +112,6 @@
 
         .content {
             flex-grow: 1;
-            /* 增加过渡，让内容区随侧边栏宽度变化而平滑移动 */
             transition: margin-left 0.3s ease;
         }
 
@@ -144,16 +136,17 @@
     <div class="container">
         <!-- 左侧侧边栏 -->
         <aside class="sidebar" id="sidebar">
-            <!-- 新增：切换按钮 -->
             <div class="toggle-btn" onclick="toggleSidebar()">☰</div>
-
             <a href="#" class="logo">MUNE</a>
             <nav class="nav-links">
-                <a href="#">首页</a>
-                <a href="#">角色档案</a>
-                <a href="#">种族设定</a>
-                <a href="#">世界观</a>
-                <a href="#">时间线</a>
+                <!-- 修改：href 指向下方卡片的 ID -->
+                <a href="#home">首页</a>
+                <a href="#char">角色档案</a>
+                <a href="#quest">主线故事</a>
+                <a href="#chat">茶话会时间</a>
+                <a href="#race">种族设定</a>
+                <a href="#world">世界观</a>
+                <a href="#timeline">时间线</a>
             </nav>
         </aside>
 
@@ -161,26 +154,60 @@
         <main class="content">
             <h1>Yggdrasil</h1>
 
-            <div class="card">
+            <!-- 修改：添加 id="home" -->
+            <div class="card" id="home">
                 <h2>欢迎来到伊格德拉西尔设定集</h2>
                 <p>这里是 Yggdrasil 的核心档案库。</p>
                 <p>背景图已成功加载。</p>
             </div>
 
-            <div class="card">
-                <h3>设定概览</h3>
-                <p>在此处添加你的详细设定内容...</p>
+            <!-- 修改：添加 id="char" -->
+            <div class="card" id="char">
+                <h2>角色档案</h2>
+                <p>在此处添加角色图文内容...</p>
+                <!-- 示例图片占位 -->
+                <!-- <img src="..." style="max-width:100%"> -->
+            </div>
+
+            <!-- 修改：添加 id="quest" -->
+            <div class="card" id="quest">
+                <h2>主线故事</h2>
+                <p>在此处添加主线故事图文内容...</p>
+            </div>
+
+            <!-- 修改：添加 id="chat" -->
+            <div class="card" id="chat">
+                <h2>茶话会时间</h2>
+                <p>思佩丝：如果你看到多米尼克在你面前摔倒，</p>
+                <p>你希望你拥有什么超能力？</p>
+                <p>奥德拉：时光倒流，这样我就可以救她。</p>
+                <p>卜不见：我也要时光倒流。</p>
+                <p>思佩丝&严缨：真的假的..</p>
+                <p>不见：当然，我要看她再摔一次。</p>
+            </div>
+            <!-- 修改：添加 id="race" -->
+            <div class="card" id="race">
+                <h2>种族设定</h2>
+                <p>在此处添加种族图文内容...</p>
+            </div>
+
+            <!-- 修改：添加 id="world" -->
+            <div class="card" id="world">
+                <h2>世界观</h2>
+                <p>在此处添加世界观图文内容...</p>
+            </div>
+
+            <!-- 修改：添加 id="timeline" -->
+            <div class="card" id="timeline">
+                <h2>时间线</h2>
+                <p>在此处添加时间线图文内容...</p>
             </div>
         </main>
     </div>
 
     <script>
-        // 获取侧边栏元素
         const sidebar = document.getElementById('sidebar');
-
-        // 定义切换函数
         function toggleSidebar() {
-            // 切换 'collapsed' 类名
             sidebar.classList.toggle('collapsed');
         }
     </script>
