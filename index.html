@@ -110,6 +110,60 @@
             color: rgb(188, 163, 163);
         }
 
+        /* 大标题样式 */
+        .nav-category {
+            color: #fff;
+            font-weight: bold;
+            font-size: 14px;
+            padding: 8px 10px;
+            margin-bottom: 5px;
+            cursor: pointer;
+            display: block;
+            text-decoration: none;
+        }
+
+        .nav-category:hover {
+            color: #e0c0c0;
+        }
+
+        /* 小标题样式 */
+        .nav-subitem {
+            display: block;
+            color: #b0b0b0;
+            font-size: 12px;
+            padding: 5px 10px 5px 25px;
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .nav-subitem:hover {
+            color: #e0c0c0;
+            background-color: rgba(144, 119, 135, 0.3);
+        }
+
+        /* 小标题容器 */
+        .nav-subitems {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .nav-subitems.expanded {
+            max-height: 500px;
+        }
+
+        .nav-category.has-subitems::after {
+            content: '▼';
+            font-size: 8px;
+            margin-left: 5px;
+            transition: transform 0.3s;
+        }
+
+        .nav-category.has-subitems.expanded::after {
+            transform: rotate(180deg);
+        }
+
         .content {
             flex-grow: 1;
             transition: margin-left 0.3s ease;
@@ -129,6 +183,19 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
             margin-bottom: 20px;
         }
+
+        /* 角色头像样式 */
+        .character-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            vertical-align: middle;
+            margin-right: 10px;
+            object-fit: cover;
+            object-position: center;
+            border: 2px solid #907787;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
     </style>
 </head>
 <body>
@@ -138,15 +205,8 @@
         <aside class="sidebar" id="sidebar">
             <div class="toggle-btn" onclick="toggleSidebar()">☰</div>
             <a href="#" class="logo">MUNE</a>
-            <nav class="nav-links">
-                <!-- 修改：href 指向下方卡片的 ID -->
-                <a href="#home">首页</a>
-                <a href="#char">角色档案</a>
-                <a href="#quest">主线故事</a>
-                <a href="#chat">茶话会时间</a>
-                <a href="#race">种族设定</a>
-                <a href="#world">世界观</a>
-                <a href="#timeline">时间线</a>
+            <nav class="nav-links" id="navLinks">
+                <!-- 导航内容将由 JavaScript 动态生成 -->
             </nav>
         </aside>
 
@@ -156,7 +216,7 @@
 
             <!-- 修改：添加 id="home" -->
             <div class="card" id="home">
-                <h2>欢迎来到伊格德拉西尔设定集</h2>
+                <h2 id="welcome">欢迎来到伊格德拉西尔设定集</h2>
                 <p>这里是 Yggdrasil 的核心档案库。</p>
                 <p>背景图已成功加载。</p>
             </div>
@@ -164,52 +224,136 @@
             <!-- 修改：添加 id="char" -->
             <div class="card" id="char">
                 <h2>角色档案</h2>
-                <p>在此处添加角色图文内容...</p>
-                <!-- 示例图片占位 -->
-                <!-- <img src="..." style="max-width:100%"> -->
+                <h3 id="character-dominic"><img src="./images/avatars/dominic.png" alt="多尼米克" class="character-avatar">多尼米克</h3>
+                <p>在此处添加多尼米克图文内容...</p>
+                <h3 id="character-bubujian"><img src="./images/avatars/bubujian.png" alt="卜不见" class="character-avatar">卜不见</h3>
+                <p>在此处添加卜不见图文内容...</p>
+                <h3 id="character-spes"><img src="./images/avatars/spes.png" alt="思佩丝" class="character-avatar">思佩丝</h3>
+                <p>在此处添加思佩丝图文内容...</p>
+                <h3 id="character-aodela"><img src="./images/avatars/aodela.png" alt="奥德拉" class="character-avatar">奥德拉</h3>
+                <p>在此处添加奥德拉图文内容...</p>
+                <h3 id="character-destine"><img src="./images/avatars/destine.png" alt="德斯蒂尼" class="character-avatar">德斯蒂尼</h3>
+                <p>在此处添加德斯蒂尼图文内容...</p>
+                <h3 id="character-saierfeiya"><img src="./images/avatars/saierfeiya.png" alt="塞尔菲亚" class="character-avatar">塞尔菲亚</h3>
+                <p>在此处添加塞尔菲亚图文内容...</p>
+                <h3 id="character-yanying"><img src="./images/avatars/yanying.png" alt="严缨" class="character-avatar">严缨</h3>
+                <p>在此处添加严缨图文内容...</p>
             </div>
 
             <!-- 修改：添加 id="quest" -->
             <div class="card" id="quest">
                 <h2>主线故事</h2>
-                <p>在此处添加主线故事图文内容...</p>
+                <h3 id="chapter1">第一章</h3>
+                <p>在此处添加第一章图文内容...</p>
+                <h3 id="chapter2">第二章</h3>
+                <p>在此处添加第二章图文内容...</p>
+                <h3 id="chapter3">第三章</h3>
+                <p>在此处添加第三章图文内容...</p>
             </div>
 
             <!-- 修改：添加 id="chat" -->
             <div class="card" id="chat">
                 <h2>茶话会时间</h2>
+                <h3 id="daily-chat">弱智段子</h3>
                 <p>思佩丝：如果你看到多米尼克在你面前摔倒，</p>
                 <p>你希望你拥有什么超能力？</p>
                 <p>奥德拉：时光倒流，这样我就可以救她。</p>
                 <p>卜不见：我也要时光倒流。</p>
                 <p>思佩丝&严缨：真的假的..</p>
                 <p>不见：当然，我要看她再摔一次。</p>
+                <h3 id="daily-photos">梗图</h3>
             </div>
             <!-- 修改：添加 id="race" -->
             <div class="card" id="race">
                 <h2>种族设定</h2>
-                <p>在此处添加种族图文内容...</p>
+                <h3 id="human">人类</h3>
+                <p>在此处添加人类图文内容...</p>
+                <h3 id="elf">精灵</h3>
+                <p>在此处添加精灵图文内容...</p>
+                <h3 id="dwarf">矮人</h3>
+                <p>在此处添加矮人图文内容...</p>
+                <h3 id="beastfolk">兽族</h3>
+                <p>在此处添加兽族图文内容...</p>
             </div>
 
             <!-- 修改：添加 id="world" -->
             <div class="card" id="world">
                 <h2>世界观</h2>
-                <p>在此处添加世界观图文内容...</p>
+                <h3 id="geography">地理</h3>
+                <p>在此处添加地理图文内容...</p>
+                <h3 id="history">历史</h3>
+                <p>在此处添加历史图文内容...</p>
+                <h3 id="politics">政治</h3>
+                <p>在此处添加政治图文内容...</p>
             </div>
 
             <!-- 修改：添加 id="timeline" -->
             <div class="card" id="timeline">
                 <h2>时间线</h2>
-                <p>在此处添加时间线图文内容...</p>
+                <h3 id="creation-era">创世纪元</h3>
+                <p>在此处添加创世纪元图文内容...</p>
+                <h3 id="golden-era">黄金纪元</h3>
+                <p>在此处添加黄金纪元图文内容...</p>
+                <h3 id="dark-era">黑暗纪元</h3>
+                <p>在此处添加黑暗纪元图文内容...</p>
+                <h3 id="modern-era">现代</h3>
+                <p>在此处添加现代图文内容...</p>
             </div>
         </main>
     </div>
 
+    <script src="posts.js"></script>
     <script>
         const sidebar = document.getElementById('sidebar');
         function toggleSidebar() {
             sidebar.classList.toggle('collapsed');
         }
+
+        // 动态生成侧边栏导航
+        function renderNav() {
+            const navLinks = document.getElementById('navLinks');
+            if (typeof postsData === 'undefined') {
+                console.error('posts.js 未加载或数据格式错误');
+                return;
+            }
+
+            let html = '';
+            postsData.forEach(item => {
+                const hasSubItems = item.subItems && item.subItems.length > 0;
+                const categoryClass = hasSubItems ? 'nav-category has-subitems' : 'nav-category';
+                
+                if (hasSubItems) {
+                    // 有小标题的大标题
+                    html += `
+                        <div class="${categoryClass}" onclick="toggleSubItems('${item.category}')">
+                            ${item.title}
+                        </div>
+                        <div class="nav-subitems" id="sub-${item.category}">
+                            ${item.subItems.map(sub => 
+                                `<a class="nav-subitem" href="#${sub.anchor}">${sub.title}</a>`
+                            ).join('')}
+                        </div>
+                    `;
+                } else {
+                    // 没有小标题的大标题
+                    html += `<a class="${categoryClass}" href="#${item.category}">${item.title}</a>`;
+                }
+            });
+            navLinks.innerHTML = html;
+        }
+
+        // 展开/收起小标题
+        function toggleSubItems(categoryId) {
+            const subItems = document.getElementById(`sub-${categoryId}`);
+            const category = document.querySelector(`.nav-category[onclick="toggleSubItems('${categoryId}')"]`);
+            if (subItems && category) {
+                subItems.classList.toggle('expanded');
+                category.classList.toggle('expanded');
+            }
+        }
+
+        // 页面加载完成后渲染导航
+        document.addEventListener('DOMContentLoaded', renderNav);
     </script>
 
 </body>
