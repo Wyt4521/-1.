@@ -46,16 +46,18 @@
             gap: 20px;
         }
 
-        .top-nav-links a {
+        /* 合并通用链接样式 */
+        .top-nav-links a, .top-nav-category {
             color: #ededed;
             text-decoration: none;
             padding: 8px 15px;
             border-radius: 4px;
-            transition: background 0.2s;
+            transition: background 0.2s, color 0.2s;
             cursor: pointer;
+            display: inline-block;
         }
 
-        .top-nav-links a:hover {
+        .top-nav-links a:hover, .top-nav-category:hover {
             background-color: #907787;
             color: rgb(188, 163, 163);
         }
@@ -64,15 +66,14 @@
             color: #fff;
             font-weight: bold;
             font-size: 14px;
-            cursor: pointer;
-            padding: 8px 15px;
-            border-radius: 4px;
-            text-decoration: none;
-            display: inline-block;
         }
 
-        .top-nav-category:hover {
-            background-color: #907787;
+        /* --- 欢迎区域样式 (新增) --- */
+        .welcome-section {
+            max-width: 1200px; /* 与轮播图最大宽度一致 */
+            margin: 20px auto; /* 居中并添加上下间距 */
+            padding: 0 20px;   /* 两侧留白，防止小屏幕贴边 */
+            box-sizing: border-box;
         }
 
         /* --- 轮播图样式 --- */
@@ -137,6 +138,7 @@
             background: rgba(255,255,255,0.5);
             cursor: pointer;
             border: none;
+            padding: 0; /* 移除默认按钮内边距 */
         }
 
         .carousel-dot.active {
@@ -154,6 +156,7 @@
             cursor: pointer;
             font-size: 20px;
             border-radius: 50%;
+            z-index: 10; /* 确保箭头在图片上方 */
         }
 
         .carousel-arrow:hover {
@@ -213,6 +216,27 @@
             border: 2px solid #907787;
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
+
+        /* 新增：卡片标题链接样式 */
+        .card h2 {
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            margin-top: 0;
+        }
+
+        .card h2 a {
+            color: #1d022c;
+            text-decoration: none;
+            transition: color 0.2s, padding-left 0.2s;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .card h2 a:hover {
+            color: #907787;
+            padding-left: 5px;
+        }
     </style>
 </head>
 <body>
@@ -225,13 +249,21 @@
         </div>
     </nav>
 
+    <!-- 新增：欢迎信息区域 (移动到轮播图上方) -->
+    <div class="welcome-section">
+        <div class="card" id="home">
+            <h2 id="welcome">欢迎来到伊格德拉西尔设定集</h2>
+            <p>从下方选择您感兴趣的内容开始探索这片大陆吧。</p>
+        </div>
+    </div>
+
     <!-- 轮播图 -->
-    <div class="carousel-container">
+    <div class="carousel-container" id="carouselContainer">
         <div class="carousel-track" id="carouselTrack">
             <!-- 轮播图内容将由 JavaScript 动态生成 -->
         </div>
-        <button class="carousel-arrow carousel-prev" onclick="prevSlide()">❮</button>
-        <button class="carousel-arrow carousel-next" onclick="nextSlide()">❯</button>
+        <button class="carousel-arrow carousel-prev" id="btnPrev" aria-label="上一张">❮</button>
+        <button class="carousel-arrow carousel-next" id="btnNext" aria-label="下一张">❯</button>
         <div class="carousel-dots" id="carouselDots">
             <!-- 轮播图圆点将由 JavaScript 动态生成 -->
         </div>
@@ -242,87 +274,62 @@
         <main class="content">
             <h1>Yggdrasil</h1>
 
-            <!-- 修改：添加 id="home" -->
-            <div class="card" id="home">
-                <h2 id="welcome">欢迎来到伊格德拉西尔设定集</h2>
-                <p>这里是 Yggdrasil 的核心档案库。</p>
-                <p>背景图已成功加载。</p>
-            </div>
-
-            <!-- 修改：添加 id="char" -->
+            <!-- 修改：角色档案 - 标题直接跳转到 characters.html -->
             <div class="card" id="char">
-                <h2>角色档案</h2>
-                <p><a href="characters.html">点击查看全部角色 →</a></p>
+                <h2><a href="characters.html" title="进入角色档案页面">角色档案</a></h2>
+                <p>探索世界中的主要人物与他们的故事。</p>
             </div>
 
-            <!-- 修改：添加 id="quest" -->
+            <!-- 修改：主线故事 - 简化内容，标题跳转到 quest.html -->
             <div class="card" id="quest">
-                <h2>主线故事</h2>
-                <h3 id="chapter1">第一章</h3>
-                <p>在此处添加第一章图文内容...</p>
-                <h3 id="chapter2">第二章</h3>
-                <p>在此处添加第二章图文内容...</p>
-                <h3 id="chapter3">第三章</h3>
-                <p>在此处添加第三章图文内容...</p>
+                <h2><a href="quest.html" title="查看主线故事">主线故事</a></h2>
+                <p>阅读伊格德拉西尔的历史篇章与英雄传说。</p>
             </div>
 
-            <!-- 修改：添加 id="chat" -->
+            <!-- 修改：茶话会时间 - 简化内容，标题跳转到 chat.html -->
             <div class="card" id="chat">
-                <h2>茶话会时间</h2>
-                <h3 id="daily-chat">弱智段子</h3>
-                <p>思佩丝：如果你看到多米尼克在你面前摔倒，</p>
-                <p>你希望你拥有什么超能力？</p>
-                <p>奥德拉：时光倒流，这样我就可以救她。</p>
-                <p>卜不见：我也要时光倒流。</p>
-                <p>思佩丝&严缨：真的假的..</p>
-                <p>不见：当然，我要看她再摔一次。</p>
-                <h3 id="daily-photos">梗图</h3>
+                <h2><a href="chat.html" title="查看茶话会">茶话会时间</a></h2>
+                <p>轻松有趣的日常段子与社区梗图合集。</p>
             </div>
-            <!-- 修改：添加 id="race" -->
+
+            <!-- 修改：种族设定 - 简化内容，标题跳转到 race.html -->
             <div class="card" id="race">
-                <h2>种族设定</h2>
-                <h3 id="human">人类</h3>
-                <p>在此处添加人类图文内容...</p>
-                <h3 id="elf">精灵</h3>
-                <p>在此处添加精灵图文内容...</p>
-                <h3 id="dwarf">矮人</h3>
-                <p>在此处添加矮人图文内容...</p>
-                <h3 id="beastfolk">兽族</h3>
-                <p>在此处添加兽族图文内容...</p>
+                <h2><a href="race.html" title="查看种族设定">种族设定</a></h2>
+                <p>了解人类、精灵、矮人及兽族的文化与特性。</p>
             </div>
 
-            <!-- 修改：添加 id="world" -->
+            <!-- 修改：世界观 - 简化内容，标题跳转到 world.html -->
             <div class="card" id="world">
-                <h2>世界观</h2>
-                <h3 id="geography">地理</h3>
-                <p>在此处添加地理图文内容...</p>
-                <h3 id="history">历史</h3>
-                <p>在此处添加历史图文内容...</p>
-                <h3 id="politics">政治</h3>
-                <p>在此处添加政治图文内容...</p>
+                <h2><a href="world.html" title="查看世界观">世界观</a></h2>
+                <p>深入探索地理环境、政治格局与历史背景。</p>
             </div>
 
-            <!-- 修改：添加 id="timeline" -->
+            <!-- 修改：时间线 - 简化内容，标题跳转到 timeline.html -->
             <div class="card" id="timeline">
-                <h2>时间线</h2>
-                <h3 id="creation-era">创世纪元</h3>
-                <p>在此处添加创世纪元图文内容...</p>
-                <h3 id="golden-era">黄金纪元</h3>
-                <p>在此处添加黄金纪元图文内容...</p>
-                <h3 id="dark-era">黑暗纪元</h3>
-                <p>在此处添加黑暗纪元图文内容...</p>
-                <h3 id="modern-era">现代</h3>
-                <p>在此处添加现代图文内容...</p>
+                <h2><a href="timeline.html" title="查看时间线">时间线</a></h2>
+                <p>从创世纪元到现代的重大事件编年史。</p>
             </div>
         </main>
     </div>
 
     <script src="posts.js"></script>
     <script>
+        // 安全转义 HTML 防止 XSS
+        function escapeHtml(text) {
+            if (typeof text !== 'string') return text;
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
         // 动态生成顶部导航
         function renderTopNav() {
             const topNavLinks = document.getElementById('topNavLinks');
-            if (typeof postsData === 'undefined') {
+            // 检查 postsData 是否存在且为数组
+            if (typeof postsData === 'undefined' || !Array.isArray(postsData)) {
                 console.error('posts.js 未加载或数据格式错误');
                 return;
             }
@@ -330,41 +337,61 @@
             let html = '';
             postsData.forEach(item => {
                 const hasSubItems = item.subItems && item.subItems.length > 0;
+                // 使用 escapeHtml 处理标题
+                const safeTitle = escapeHtml(item.title);
+                const safeCategory = escapeHtml(item.category);
                 
                 if (hasSubItems) {
                     // 有小标题的大标题 - 点击可跳转
                     html += `
-                        <a href="#${item.category}" class="top-nav-category">
-                            ${item.title}
+                        <a href="#${safeCategory}" class="top-nav-category">
+                            ${safeTitle}
                         </a>
                     `;
                 } else {
                     // 没有小标题的大标题
-                    html += `<a href="#${item.category}">${item.title}</a>`;
+                    html += `<a href="#${safeCategory}">${safeTitle}</a>`;
                 }
             });
             topNavLinks.innerHTML = html;
         }
+
+        // 轮播图状态管理
+        let carouselState = {
+            currentSlide: 0,
+            totalSlides: 0,
+            autoPlayInterval: null,
+            isInitialized: false
+        };
 
         // 动态生成轮播图
         function renderCarousel() {
             const carouselTrack = document.getElementById('carouselTrack');
             const carouselDots = document.getElementById('carouselDots');
             
-            if (typeof carouselData === 'undefined') {
-                console.error('carouselData 未定义');
+            if (typeof carouselData === 'undefined' || !Array.isArray(carouselData) || carouselData.length === 0) {
+                console.error('carouselData 未定义或为空');
                 return;
             }
+
+            // 初始化状态
+            carouselState.totalSlides = carouselData.length;
+            carouselState.currentSlide = 0;
+            carouselState.isInitialized = true;
 
             // 生成轮播图幻灯片
             let slidesHtml = '';
             carouselData.forEach((item, index) => {
+                const safeLink = escapeHtml(item.link);
+                const safeImage = escapeHtml(item.image);
+                const safeTitle = escapeHtml(item.title);
+                
                 slidesHtml += `
                     <div class="carousel-slide">
-                        <a href="${item.link}">
-                            <img src="${item.image}" alt="${item.title}">
+                        <a href="${safeLink}">
+                            <img src="${safeImage}" alt="${safeTitle}">
                             <div class="carousel-caption">
-                                <h3>${item.title}</h3>
+                                <h3>${safeTitle}</h3>
                             </div>
                         </a>
                     </div>
@@ -375,55 +402,103 @@
             // 生成轮播图圆点
             let dotsHtml = '';
             carouselData.forEach((item, index) => {
-                dotsHtml += `<button class="carousel-dot ${index === 0 ? 'active' : ''}" onclick="goToSlide(${index})"></button>`;
+                dotsHtml += `<button class="carousel-dot ${index === 0 ? 'active' : ''}" data-index="${index}" aria-label="跳转到第 ${index + 1} 张"></button>`;
             });
             carouselDots.innerHTML = dotsHtml;
+
+            // 绑定圆点点击事件
+            document.querySelectorAll('.carousel-dot').forEach(dot => {
+                dot.addEventListener('click', (e) => {
+                    const index = parseInt(e.target.getAttribute('data-index'));
+                    goToSlide(index);
+                });
+            });
+            
+            // 初始更新位置
+            updateCarousel();
         }
 
         // 轮播图控制
-        let currentSlide = 0;
-        const totalSlides = carouselData ? carouselData.length : 0;
-
         function updateCarousel() {
+            if (!carouselState.isInitialized) return;
+
             const track = document.getElementById('carouselTrack');
-            track.style.transform = `translateX(-${currentSlide * 100}%)`;
+            track.style.transform = `translateX(-${carouselState.currentSlide * 100}%)`;
             
             // 更新圆点状态
             const dots = document.querySelectorAll('.carousel-dot');
             dots.forEach((dot, index) => {
-                dot.classList.toggle('active', index === currentSlide);
+                dot.classList.toggle('active', index === carouselState.currentSlide);
             });
         }
 
         function nextSlide() {
-            currentSlide = (currentSlide + 1) % totalSlides;
+            if (!carouselState.isInitialized || carouselState.totalSlides === 0) return;
+            carouselState.currentSlide = (carouselState.currentSlide + 1) % carouselState.totalSlides;
             updateCarousel();
         }
 
         function prevSlide() {
-            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            if (!carouselState.isInitialized || carouselState.totalSlides === 0) return;
+            carouselState.currentSlide = (carouselState.currentSlide - 1 + carouselState.totalSlides) % carouselState.totalSlides;
             updateCarousel();
         }
 
         function goToSlide(index) {
-            currentSlide = index;
+            if (!carouselState.isInitialized) return;
+            // 边界检查
+            if (index < 0) index = 0;
+            if (index >= carouselState.totalSlides) index = carouselState.totalSlides - 1;
+            
+            carouselState.currentSlide = index;
             updateCarousel();
         }
 
         // 自动轮播
-        let autoPlayInterval;
         function startAutoPlay() {
-            autoPlayInterval = setInterval(nextSlide, 5000);
+            if (!carouselState.isInitialized || carouselState.totalSlides <= 1) return;
+            stopAutoPlay(); // 清除可能存在的旧定时器
+            carouselState.autoPlayInterval = setInterval(nextSlide, 5000);
         }
 
         function stopAutoPlay() {
-            clearInterval(autoPlayInterval);
+            if (carouselState.autoPlayInterval) {
+                clearInterval(carouselState.autoPlayInterval);
+                carouselState.autoPlayInterval = null;
+            }
         }
 
         // 页面加载完成后渲染
         document.addEventListener('DOMContentLoaded', function() {
             renderTopNav();
             renderCarousel();
+            
+            // 绑定箭头事件
+            document.getElementById('btnPrev').addEventListener('click', () => {
+                prevSlide();
+                // 用户手动操作后重置自动播放计时器，提升体验
+                if (carouselState.isInitialized) {
+                    stopAutoPlay();
+                    startAutoPlay();
+                }
+            });
+            
+            document.getElementById('btnNext').addEventListener('click', () => {
+                nextSlide();
+                if (carouselState.isInitialized) {
+                    stopAutoPlay();
+                    startAutoPlay();
+                }
+            });
+
+            // 鼠标悬停暂停轮播
+            const carouselContainer = document.getElementById('carouselContainer');
+            if (carouselContainer) {
+                carouselContainer.addEventListener('mouseenter', stopAutoPlay);
+                carouselContainer.addEventListener('mouseleave', startAutoPlay);
+            }
+
+            // 启动自动播放
             startAutoPlay();
         });
     </script>
