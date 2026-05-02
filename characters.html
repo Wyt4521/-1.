@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yggdrasil - 角色档案</title>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #ffffff;
+            background-image: url('./images/indexBackground.png');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        /* --- 顶部导航栏样式 --- */
+        .top-nav {
+            background: rgba(29, 2, 44, 0.9);
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .top-nav .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        }
+
+        .top-nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .top-nav-links a {
+            color: #ededed;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+
+        .top-nav-links a:hover {
+            background-color: #907787;
+            color: rgb(188, 163, 163);
+        }
+
+        /* --- 角色轮播图样式 --- */
+        .character-carousel-container {
+            position: relative;
+            max-width: 800px;
+            margin: 30px auto;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            /* 防止鼠标悬停时选中文字影响体验 */
+            user-select: none; 
+        }
+
+        .character-carousel-track {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .character-carousel-slide {
+            min-width: 100%;
+            position: relative;
+            text-align: center;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.9);
+            box-sizing: border-box; /* 确保padding不增加宽度 */
+        }
+
+        .character-carousel-slide img {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #907787;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .character-carousel-slide img:hover {
+            transform: scale(1.1);
+        }
+
+        .character-carousel-slide h2 {
+            margin: 20px 0 10px;
+            color: #1d022c;
+            font-size: 28px;
+        }
+
+        .character-carousel-slide p {
+            color: #555;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .character-carousel-dots {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+
+        .character-carousel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(144, 119, 135, 0.5);
+            cursor: pointer;
+            border: none;
+            transition: background 0.3s;
+            padding: 0; /* 重置按钮默认padding */
+        }
+
+        .character-carousel-dot.active {
+            background: #907787;
+        }
+
+        .character-carousel-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(144, 119, 135, 0.8);
+            color: #fff;
+            border: none;
+            padding: 15px 20px;
+            cursor: pointer;
+            font-size: 24px;
+            border-radius: 8px;
+            transition: background 0.3s;
+            z-index: 10;
+        }
+
+        .character-carousel-arrow:hover {
+            background: #907787;
+        }
+
+        .character-carousel-prev {
+            left: 10px;
+        }
+
+        .character-carousel-next {
+            right: 10px;
+        }
+
+        /* --- 主内容区样式 --- */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #1d022c;
+            text-align: center;
+            margin-top: 30px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin: 20px;
+            color: #907787;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .back-link:hover {
+            color: #1d022c;
+        }
+
+        /* --- 角色详情卡片样式 --- */
+        .character-detail {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin: 20px auto;
+            max-width: 800px;
+            /* 关键优化：防止锚点跳转时被固定导航栏遮挡 */
+            scroll-margin-top: 80px; 
+        }
+
+        .character-detail h2 {
+            color: #1d022c;
+            border-bottom: 2px solid #907787;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .character-detail .avatar-large {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            float: left;
+            margin-right: 30px;
+            border: 3px solid #907787;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .character-detail .info {
+            overflow: hidden;
+        }
+
+        .character-detail .info p {
+            margin: 10px 0;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        .character-detail .info strong {
+            color: #1d022c;
+        }
+        
+        /* 清除浮动辅助类，虽然info用了overflow:hidden，但显式清除更稳妥 */
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 顶部导航栏 -->
+    <nav class="top-nav">
+        <a href="index.html" class="logo">MUNE</a>
+        <div class="top-nav-links">
+            <a href="index.html">首页</a>
+            <a href="characters.html">角色档案</a>
+            <a href="#quest">主线故事</a>
+            <a href="#race">种族设定</a>
+            <a href="#world">世界观</a>
+            <a href="#timeline">时间线</a>
+        </div>
+    </nav>
+
+    <a href="index.html" class="back-link">← 返回首页</a>
+
+    <h1>角色档案</h1>
+
+    <!-- 角色轮播图 -->
+    <div class="character-carousel-container" id="carouselContainer">
+        <div class="character-carousel-track" id="characterCarouselTrack">
+            <!-- 角色轮播图内容将由 JavaScript 动态生成 -->
+        </div>
+        <button class="character-carousel-arrow character-carousel-prev" id="prevBtn" aria-label="上一个角色">❮</button>
+        <button class="character-carousel-arrow character-carousel-next" id="nextBtn" aria-label="下一个角色">❯</button>
+        <div class="character-carousel-dots" id="characterCarouselDots">
+            <!-- 轮播图圆点将由 JavaScript 动态生成 -->
+        </div>
+    </div>
+
+    <!-- 角色详情区域 -->
+    <div class="container" id="characterDetailsContainer">
+        <!-- 角色详情卡片将由 JavaScript 动态生成，以确保与轮播图数据一致 -->
+    </div>
+
+    <script>
+        // 使用立即执行函数封装，避免污染全局命名空间
+        (function() {
+            // 角色数据 - 单一数据源
+            const characterData = [
+                { 
+                    name: "多尼米克", 
+                    avatar: "./images/avatars/dominic.png", 
+                    anchor: "character-dominic",
+                    description: "在此处添加多尼米克的详细档案..."
+                },
+                { 
+                    name: "卜不见", 
+                    avatar: "./images/avatars/bubujian.png", 
+                    anchor: "character-bubujian",
+                    description: "在此处添加卜不见的详细档案..."
+                },
+                { 
+                    name: "思佩丝", 
+                    avatar: "./images/avatars/spes.png", 
+                    anchor: "character-spes",
+                    description: "在此处添加思佩丝的详细档案..."
+                },
+                { 
+                    name: "奥德拉", 
+                    avatar: "./images/avatars/aodela.png", 
+                    anchor: "character-aodela",
+                    description: "在此处添加奥德拉的详细档案..."
+                },
+                { 
+                    name: "德斯蒂尼", 
+                    avatar: "./images/avatars/destine.png", 
+                    anchor: "character-destine",
+                    description: "在此处添加德斯蒂尼的详细档案..."
+                },
+                { 
+                    name: "赛尔维娜", 
+                    avatar: "./images/avatars/Selvina.png", 
+                    anchor: "character-selvina",
+                    description: "在此处添加赛尔维娜的详细档案..."
+                },
+                { 
+                    name: "严缨", 
+                    avatar: "./images/avatars/yanying.png", 
+                    anchor: "character-yanying",
+                    description: "在此处添加严缨的详细档案..."
+                }
+            ];
+
+            // 状态变量
+            let currentCharacterSlide = 0;
+            let characterAutoPlayInterval = null;
+            const totalSlides = characterData.length;
+
+            // DOM 元素缓存
+            const track = document.getElementById('characterCarouselTrack');
+            const dotsContainer = document.getElementById('characterCarouselDots');
+            const detailsContainer = document.getElementById('characterDetailsContainer');
+            const carouselContainer = document.getElementById('carouselContainer');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+
+            // 初始化渲染
+            function init() {
+                renderCharacterCarousel();
+                renderCharacterDetails();
+                startCharacterAutoPlay();
+                bindEvents();
+            }
+
+            // 动态生成角色轮播图
+            function renderCharacterCarousel() {
+                // 生成轮播图幻灯片
+                // 使用 DocumentFragment 提高性能
+                const fragment = document.createDocumentFragment();
+                
+                characterData.forEach((char, index) => {
+                    const slide = document.createElement('div');
+                    slide.className = 'character-carousel-slide';
+                    
+                    // 构建内部结构
+                    const link = document.createElement('a');
+                    link.href = `#${char.anchor}`;
+                    
+                    const img = document.createElement('img');
+                    img.src = char.avatar;
+                    img.alt = char.name;
+                    // 非首屏图片可以考虑懒加载，但轮播图通常预加载体验更好，这里暂不加 lazy
+                    
+                    link.appendChild(img);
+                    
+                    const title = document.createElement('h2');
+                    title.textContent = char.name; // 安全地设置文本，防止 XSS
+                    
+                    const desc = document.createElement('p');
+                    desc.textContent = char.description; // 安全地设置文本
+                    
+                    slide.appendChild(link);
+                    slide.appendChild(title);
+                    slide.appendChild(desc);
+                    
+                    fragment.appendChild(slide);
+                });
+                track.innerHTML = ''; // 清空
+                track.appendChild(fragment);
+
+                // 生成轮播图圆点
+                const dotsFragment = document.createDocumentFragment();
+                characterData.forEach((char, index) => {
+                    const dot = document.createElement('button');
+                    dot.className = `character-carousel-dot ${index === 0 ? 'active' : ''}`;
+                    dot.setAttribute('aria-label', `跳转到角色 ${char.name}`);
+                    dot.onclick = () => goToCharacterSlide(index);
+                    dotsFragment.appendChild(dot);
+                });
+                dotsContainer.innerHTML = '';
+                dotsContainer.appendChild(dotsFragment);
+            }
+
+            // 动态生成角色详情区域 (消除 HTML 中的重复代码)
+            function renderCharacterDetails() {
+                const fragment = document.createDocumentFragment();
+
+                characterData.forEach(char => {
+                    const detailDiv = document.createElement('div');
+                    detailDiv.id = char.anchor;
+                    detailDiv.className = 'character-detail clearfix';
+
+                    const img = document.createElement('img');
+                    img.src = char.avatar;
+                    img.alt = char.name;
+                    img.className = 'avatar-large';
+                    // 详情图片在下方，可以使用懒加载优化首屏
+                    img.loading = "lazy";
+
+                    const infoDiv = document.createElement('div');
+                    infoDiv.className = 'info';
+
+                    const title = document.createElement('h2');
+                    title.textContent = char.name;
+
+                    const strongText = document.createElement('p');
+                    const strongTag = document.createElement('strong');
+                    strongTag.textContent = char.description; // 假设描述的第一部分作为强调内容，或者根据需求调整
+                    strongText.appendChild(strongTag);
+
+                    const contentText = document.createElement('p');
+                    contentText.textContent = "角色背景、性格、故事等相关信息。"; // 保持原有静态文本结构
+
+                    infoDiv.appendChild(title);
+                    infoDiv.appendChild(strongText);
+                    infoDiv.appendChild(contentText);
+
+                    detailDiv.appendChild(img);
+                    detailDiv.appendChild(infoDiv);
+                    
+                    fragment.appendChild(detailDiv);
+                });
+
+                detailsContainer.appendChild(fragment);
+            }
+
+            // 轮播图控制逻辑
+            function updateCharacterCarousel() {
+                track.style.transform = `translateX(-${currentCharacterSlide * 100}%)`;
+                
+                // 更新圆点状态
+                const dots = dotsContainer.querySelectorAll('.character-carousel-dot');
+                dots.forEach((dot, index) => {
+                    if (index === currentCharacterSlide) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
+            }
+
+            function nextCharacterSlide() {
+                currentCharacterSlide = (currentCharacterSlide + 1) % totalSlides;
+                updateCharacterCarousel();
+            }
+
+            function prevCharacterSlide() {
+                currentCharacterSlide = (currentCharacterSlide - 1 + totalSlides) % totalSlides;
+                updateCharacterCarousel();
+            }
+
+            function goToCharacterSlide(index) {
+                if (index >= 0 && index < totalSlides) {
+                    currentCharacterSlide = index;
+                    updateCharacterCarousel();
+                }
+            }
+
+            // 自动轮播控制
+            function startCharacterAutoPlay() {
+                // 清除已存在的定时器，防止多重启动
+                if (characterAutoPlayInterval) clearInterval(characterAutoPlayInterval);
+                characterAutoPlayInterval = setInterval(nextCharacterSlide, 5000);
+            }
+
+            function stopCharacterAutoPlay() {
+                if (characterAutoPlayInterval) {
+                    clearInterval(characterAutoPlayInterval);
+                    characterAutoPlayInterval = null;
+                }
+            }
+
+            // 事件绑定
+            function bindEvents() {
+                prevBtn.addEventListener('click', () => {
+                    prevCharacterSlide();
+                    // 手动操作后重置自动播放计时器，提升体验
+                    stopCharacterAutoPlay();
+                    startCharacterAutoPlay();
+                });
+
+                nextBtn.addEventListener('click', () => {
+                    nextCharacterSlide();
+                    stopCharacterAutoPlay();
+                    startCharacterAutoPlay();
+                });
+
+                // 鼠标悬停暂停轮播
+                carouselContainer.addEventListener('mouseenter', stopCharacterAutoPlay);
+                carouselContainer.addEventListener('mouseleave', startCharacterAutoPlay);
+            }
+
+            // 页面加载完成后执行
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+        })();
+    </script>
+
+</body>
+</html>
