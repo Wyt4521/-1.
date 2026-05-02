@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>角色详情 - Yggdrasil</title>
+    <style>
+        /* 复用 characters.html 的基础样式 */
+        body {
+            margin: 0;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #ffffff;
+            background-image: url('./images/indexBackground.png');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: #333;
+        }
+
+        .top-nav {
+            background: rgba(29, 2, 44, 0.9);
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .top-nav .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .top-nav-links a {
+            color: #ededed;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            min-height: 80vh;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #907787;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .back-btn:hover {
+            color: #1d022c;
+        }
+
+        .character-header {
+            text-align: center;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .character-avatar {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #907787;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+        }
+
+        .character-name {
+            font-size: 36px;
+            color: #1d022c;
+            margin: 0;
+        }
+
+        .character-bio {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #555;
+            white-space: pre-wrap; /* 保留换行符 */
+        }
+
+        .error-message {
+            text-align: center;
+            color: red;
+            font-size: 20px;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="top-nav">
+        <a href="index.html" class="logo">MUNE</a>
+        <div class="top-nav-links">
+            <a href="index.html">首页</a>
+            <a href="characters.html">返回角色列表</a>
+        </div>
+    </nav>
+
+    <div class="container" id="detailContainer">
+        <!-- 内容将由 JS 动态插入 -->
+        <div style="text-align:center; padding: 50px;">加载中...</div>
+    </div>
+
+    <script>
+        (function() {
+            // 这里需要复制一份角色数据，或者在实际项目中通过 fetch 获取 JSON
+            // 为了简单起见，我们在这里硬编码数据，确保与 characters.html 一致
+            const characterData = [
+                { 
+                    name: "多尼米克", 
+                    avatar: "./images/avatars/dominic.png", 
+                    description: "在此处添加多尼米克的详细档案..."
+                },
+                { 
+                    name: "卜不见", 
+                    avatar: "./images/avatars/bubujian.png", 
+                    description: "东方血统的近战法师，平日里总是一副散漫爱热闹的模样，善谈爱笑，给他一杯大麦酒，他能把全酒馆的人底裤颜色都给掏出来。\n\n擅长速胜的近身格斗，精通乱七八糟的奇怪法术，短轴爆发力强。拥有像猫一样轻巧的身法和隐匿气息的绝技。\n\n好大喜功、自由自信，想要讨人喜欢很容易，只不过他一般懒于去做。"
+                },
+                { 
+                    name: "思佩丝", 
+                    avatar: "./images/avatars/spes.png", 
+                    description: "在此处添加思佩丝的详细档案..."
+                },
+                { 
+                    name: "奥德拉", 
+                    avatar: "./images/avatars/aodela.png", 
+                    description: "在此处添加奥德拉的详细档案..."
+                },
+                { 
+                    name: "德斯蒂尼", 
+                    avatar: "./images/avatars/destine.png", 
+                    description: "在此处添加德斯蒂尼的详细档案..."
+                },
+                { 
+                    name: "赛尔维娜", 
+                    avatar: "./images/avatars/Selvina.png", 
+                    description: "在此处添加赛尔维娜的详细档案..."
+                },
+                { 
+                    name: "严缨", 
+                    avatar: "./images/avatars/yanying.png", 
+                    description: "在此处添加严缨的详细档案..."
+                }
+            ];
+
+            function init() {
+                // 1. 获取 URL 参数
+                const params = new URLSearchParams(window.location.search);
+                const charName = params.get('name');
+
+                const container = document.getElementById('detailContainer');
+
+                if (!charName) {
+                    container.innerHTML = '<div class="error-message">未指定角色名称。<br><a href="characters.html">返回角色列表</a></div>';
+                    return;
+                }
+
+                // 2. 查找角色数据
+                // 使用 decodeURIComponent 处理可能的编码问题
+                const decodedName = decodeURIComponent(charName);
+                const character = characterData.find(c => c.name === decodedName);
+
+                if (!character) {
+                    container.innerHTML = `<div class="error-message">找不到角色 "${decodedName}" 的信息。<br><a href="characters.html">返回角色列表</a></div>`;
+                    return;
+                }
+
+                // 3. 渲染页面
+                document.title = `${character.name} - 角色详情`;
+                
+                container.innerHTML = `
+                    <a href="characters.html" class="back-btn">← 返回角色列表</a>
+                    <div class="character-header">
+                        <img src="${character.avatar}" alt="${character.name}" class="character-avatar" onerror="this.src='./images/avatars/default.png'">
+                        <h1 class="character-name">${character.name}</h1>
+                    </div>
+                    <div class="character-bio">
+                        ${character.description}
+                    </div>
+                `;
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+        })();
+    </script>
+</body>
+</html>
