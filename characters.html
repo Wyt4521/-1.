@@ -67,7 +67,6 @@
             overflow: hidden;
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            /* 防止鼠标悬停时选中文字影响体验 */
             user-select: none; 
         }
 
@@ -82,9 +81,10 @@
             text-align: center;
             padding: 40px;
             background: rgba(255, 255, 255, 0.9);
-            box-sizing: border-box; /* 确保padding不增加宽度 */
+            box-sizing: border-box;
         }
 
+        /* 修改：移除图片的直接hover效果，因为现在图片在链接内，且点击会跳转 */
         .character-carousel-slide img {
             width: 200px;
             height: 200px;
@@ -97,7 +97,7 @@
         }
 
         .character-carousel-slide img:hover {
-            transform: scale(1.1);
+            transform: scale(1.05); /* 稍微减小缩放比例，避免遮挡过多 */
         }
 
         .character-carousel-slide h2 {
@@ -129,7 +129,7 @@
             cursor: pointer;
             border: none;
             transition: background 0.3s;
-            padding: 0; /* 重置按钮默认padding */
+            padding: 0;
         }
 
         .character-carousel-dot.active {
@@ -190,7 +190,7 @@
             color: #1d022c;
         }
 
-        /* --- 角色详情卡片样式 --- */
+        /* --- 角色详情卡片样式 (列表用) --- */
         .character-detail {
             background: rgba(255, 255, 255, 0.9);
             padding: 30px;
@@ -198,8 +198,14 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             margin: 20px auto;
             max-width: 800px;
-            /* 关键优化：防止锚点跳转时被固定导航栏遮挡 */
             scroll-margin-top: 80px; 
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        /* 增加列表项的悬停效果，提示可点击 */
+        .character-detail:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
         }
 
         .character-detail h2 {
@@ -207,6 +213,7 @@
             border-bottom: 2px solid #907787;
             padding-bottom: 10px;
             margin-bottom: 20px;
+            margin-top: 0;
         }
 
         .character-detail .avatar-large {
@@ -233,8 +240,7 @@
             color: #1d022c;
         }
         
-        /* 清除浮动辅助类，虽然info用了overflow:hidden，但显式清除更稳妥 */
-        .clearfix::after {
+ .clearfix::after {
             content: "";
             clear: both;
             display: table;
@@ -249,10 +255,10 @@
         <div class="top-nav-links">
             <a href="index.html">首页</a>
             <a href="characters.html">角色档案</a>
-            <a href="#quest">主线故事</a>
-            <a href="#race">种族设定</a>
-            <a href="#world">世界观</a>
-            <a href="#timeline">时间线</a>
+            <a href="index.html#quest">主线故事</a>
+            <a href="index.html#race">种族设定</a>
+            <a href="index.html#world">世界观</a>
+            <a href="index.html#timeline">时间线</a>
         </div>
     </nav>
 
@@ -272,9 +278,9 @@
         </div>
     </div>
 
-    <!-- 角色详情区域 -->
+    <!-- 角色详情区域 (列表展示) -->
     <div class="container" id="characterDetailsContainer">
-        <!-- 角色详情卡片将由 JavaScript 动态生成，以确保与轮播图数据一致 -->
+        <!-- 角色详情卡片将由 JavaScript 动态生成 -->
     </div>
 
     <script>
@@ -285,44 +291,44 @@
                 { 
                     name: "多尼米克", 
                     avatar: "./images/avatars/dominic.png", 
-                    anchor: "character-dominic",
-                    description: "在此处添加多尼米克的详细档案..."
+                    description: "在此处添加多尼米克的详细档案...",
+                    detailUrl: "./character-detail.html?name=多尼米克"
                 },
                 { 
                     name: "卜不见", 
                     avatar: "./images/avatars/bubujian.png", 
-                    anchor: "character-bubujian",
-                    description: "在此处添加卜不见的详细档案..."
+                    description: "东方血统的近战法师，平日里总是一副散漫爱热闹的模样，善谈爱笑，给他一杯大麦酒，他能把全酒馆的人底裤颜色都给掏出来。\n\n擅长速胜的近身格斗，精通乱七八糟的奇怪法术，短轴爆发力强。拥有像猫一样轻巧的身法和隐匿气息的绝技。\n\n好大喜功、自由自信，想要讨人喜欢很容易，只不过他一般懒于去做。",
+                    detailUrl: "./character-detail.html?name=卜不见"
                 },
                 { 
                     name: "思佩丝", 
                     avatar: "./images/avatars/spes.png", 
-                    anchor: "character-spes",
-                    description: "在此处添加思佩丝的详细档案..."
+                    description: "在此处添加思佩丝的详细档案...",
+                    detailUrl: "./character-detail.html?name=思佩丝"
                 },
                 { 
                     name: "奥德拉", 
                     avatar: "./images/avatars/aodela.png", 
-                    anchor: "character-aodela",
-                    description: "在此处添加奥德拉的详细档案..."
+                    description: "在此处添加奥德拉的详细档案...",
+                    detailUrl: "./character-detail.html?name=奥德拉"
                 },
                 { 
                     name: "德斯蒂尼", 
                     avatar: "./images/avatars/destine.png", 
-                    anchor: "character-destine",
-                    description: "在此处添加德斯蒂尼的详细档案..."
+                    description: "在此处添加德斯蒂尼的详细档案...",
+                    detailUrl: "./character-detail.html?name=德斯蒂尼"
                 },
                 { 
                     name: "赛尔维娜", 
                     avatar: "./images/avatars/Selvina.png", 
-                    anchor: "character-selvina",
-                    description: "在此处添加赛尔维娜的详细档案..."
+                    description: "在此处添加赛尔维娜的详细档案...",
+                    detailUrl: "./character-detail.html?name=赛尔维娜"
                 },
                 { 
                     name: "严缨", 
                     avatar: "./images/avatars/yanying.png", 
-                    anchor: "character-yanying",
-                    description: "在此处添加严缨的详细档案..."
+                    description: "在此处添加严缨的详细档案...",
+                    detailUrl: "./character-detail.html?name=严缨"
                 }
             ];
 
@@ -349,38 +355,41 @@
 
             // 动态生成角色轮播图
             function renderCharacterCarousel() {
-                // 生成轮播图幻灯片
-                // 使用 DocumentFragment 提高性能
                 const fragment = document.createDocumentFragment();
                 
                 characterData.forEach((char, index) => {
                     const slide = document.createElement('div');
                     slide.className = 'character-carousel-slide';
                     
-                    // 构建内部结构
+                    //构建内部结构 - 点击图片/名字跳转到详情页
                     const link = document.createElement('a');
-                    link.href = `#${char.anchor}`;
+                    link.href = char.detailUrl;
+                    link.title = `查看 ${char.name} 的详细档案`;
+                    link.style.textDecoration = 'none';
+                    link.style.color = 'inherit';
+                    link.style.display = 'block'; // 让链接块级化，方便点击
                     
                     const img = document.createElement('img');
                     img.src = char.avatar;
                     img.alt = char.name;
-                    // 非首屏图片可以考虑懒加载，但轮播图通常预加载体验更好，这里暂不加 lazy
-                    
-                    link.appendChild(img);
                     
                     const title = document.createElement('h2');
-                    title.textContent = char.name; // 安全地设置文本，防止 XSS
+                    title.textContent = char.name;
+                    title.style.marginTop = '10px'; // 调整间距
                     
                     const desc = document.createElement('p');
-                    desc.textContent = char.description; // 安全地设置文本
+                    // 简介只取第一段，避免轮播图文字过多
+                    desc.textContent = char.description.split('\n')[0]; 
+                    
+                    link.appendChild(img);
+                    link.appendChild(title);
+                    link.appendChild(desc);
                     
                     slide.appendChild(link);
-                    slide.appendChild(title);
-                    slide.appendChild(desc);
-                    
                     fragment.appendChild(slide);
                 });
-                track.innerHTML = ''; // 清空
+                
+                track.innerHTML = ''; 
                 track.appendChild(fragment);
 
                 // 生成轮播图圆点
@@ -388,28 +397,39 @@
                 characterData.forEach((char, index) => {
                     const dot = document.createElement('button');
                     dot.className = `character-carousel-dot ${index === 0 ? 'active' : ''}`;
-                    dot.setAttribute('aria-label', `跳转到角色 ${char.name}`);
-                    dot.onclick = () => goToCharacterSlide(index);
+                    dot.setAttribute('aria-label', `切换到角色 ${char.name}`);
+                    // 圆点保持切换幻灯片功能，不直接跳转，符合轮播图直觉
+                    dot.onclick = () => {
+                        goToCharacterSlide(index);
+                        // 用户交互时重置自动播放
+                        stopCharacterAutoPlay();
+                        startCharacterAutoPlay();
+                    };
                     dotsFragment.appendChild(dot);
                 });
                 dotsContainer.innerHTML = '';
                 dotsContainer.appendChild(dotsFragment);
             }
 
-            // 动态生成角色详情区域 (消除 HTML 中的重复代码)
+            // 动态生成角色详情区域 (列表展示)
             function renderCharacterDetails() {
                 const fragment = document.createDocumentFragment();
 
                 characterData.forEach(char => {
                     const detailDiv = document.createElement('div');
-                    detailDiv.id = char.anchor;
                     detailDiv.className = 'character-detail clearfix';
+
+                    // 整个卡片包裹在链接中
+                    const linkWrapper = document.createElement('a');
+                    linkWrapper.href = char.detailUrl;
+                    linkWrapper.style.textDecoration = 'none';
+                    linkWrapper.style.color = 'inherit';
+                    linkWrapper.style.display = 'block';
 
                     const img = document.createElement('img');
                     img.src = char.avatar;
                     img.alt = char.name;
                     img.className = 'avatar-large';
-                    // 详情图片在下方，可以使用懒加载优化首屏
                     img.loading = "lazy";
 
                     const infoDiv = document.createElement('div');
@@ -418,20 +438,18 @@
                     const title = document.createElement('h2');
                     title.textContent = char.name;
 
-                    const strongText = document.createElement('p');
-                    const strongTag = document.createElement('strong');
-                    strongTag.textContent = char.description; // 假设描述的第一部分作为强调内容，或者根据需求调整
-                    strongText.appendChild(strongTag);
-
                     const contentText = document.createElement('p');
-                    contentText.textContent = "角色背景、性格、故事等相关信息。"; // 保持原有静态文本结构
+                    // 列表页显示简短介绍
+                    const shortDesc = char.description.split('\n')[0];
+                    contentText.textContent = shortDesc + (shortDesc.length < char.description.length ? "..." : "");
 
                     infoDiv.appendChild(title);
-                    infoDiv.appendChild(strongText);
                     infoDiv.appendChild(contentText);
 
-                    detailDiv.appendChild(img);
-                    detailDiv.appendChild(infoDiv);
+                    linkWrapper.appendChild(img);
+                    linkWrapper.appendChild(infoDiv);
+                    
+                    detailDiv.appendChild(linkWrapper);
                     
                     fragment.appendChild(detailDiv);
                 });
@@ -473,7 +491,6 @@
 
             // 自动轮播控制
             function startCharacterAutoPlay() {
-                // 清除已存在的定时器，防止多重启动
                 if (characterAutoPlayInterval) clearInterval(characterAutoPlayInterval);
                 characterAutoPlayInterval = setInterval(nextCharacterSlide, 5000);
             }
@@ -489,7 +506,6 @@
             function bindEvents() {
                 prevBtn.addEventListener('click', () => {
                     prevCharacterSlide();
-                    // 手动操作后重置自动播放计时器，提升体验
                     stopCharacterAutoPlay();
                     startCharacterAutoPlay();
                 });
