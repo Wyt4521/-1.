@@ -69,8 +69,9 @@ const postsData = [
 
 // 轮播图数据
 const carouselData = [
-    { image: "./images/carousel/char.png", title: "角色档案", link: "#char" },
-    { image: "./images/carousel/quest.png", title: "主线故事", link: "#quest" },
-    { image: "./images/carousel/race.png", title: "种族设定", link: "#race" },
-    { image: "./images/carousel/world.png", title: "世界观", link: "#world" }
+    { image: "./images/carousel/char.png", title: "角色档案", link: "characters.html" }, // 建议改为独立页面链接，与卡片一致
+    { image: "./images/carousel/quest.png", title: "主线故事", link: "quest.html" },     // 建议改为独立页面链接，与卡片一致
+    { image: "./images/carousel/chat.png", title: "茶话会时间", link: "chat.html" },     // 新增：茶话会时间，请确保图片路径存在
+    { image: "./images/carousel/race.png", title: "种族设定", link: "race.html" },       // 建议改为独立页面链接，与卡片一致
+    { image: "./images/carousel/world.png", title: "世界观", link: "world.html" }        // 建议改为独立页面链接，与卡片一致
 ];

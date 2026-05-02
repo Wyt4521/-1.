@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>角色故事 - Yggdrasil</title>
+    <!-- 引入 marked.js 用于解析 Markdown -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #ffffff;
+            background-image: url('./images/indexBackground.png');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: #333;
+        }
+
+        .top-nav {
+            background: rgba(29, 2, 44, 0.9);
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .top-nav .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .top-nav-links a {
+            color: #ededed;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            min-height: 80vh;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #907787;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .back-btn:hover {
+            color: #1d022c;
+        }
+
+        h1 {
+            color: #1d022c;
+            text-align: center;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        /* Markdown 内容样式优化 */
+        .article-content {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #444;
+            margin-top: 30px;
+        }
+
+        .article-content h2 {
+            color: #907787;
+            margin-top: 30px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+
+        .article-content p {
+            margin-bottom: 20px;
+            text-indent: 0; /* Markdown通常不需要首行缩进，或者根据需要调整 */
+        }
+        
+        .article-content blockquote {
+            background: #f9f9f9;
+            border-left: 4px solid #907787;
+            margin: 20px 0;
+            padding: 10px 20px;
+            color: #666;
+        }
+
+        .error-message {
+            text-align: center;
+            color: red;
+            font-size: 20px;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="top-nav">
+        <a href="index.html" class="logo">MUNE</a>
+        <div class="top-nav-links">
+            <a href="index.html">首页</a>
+            <a href="characters.html">返回角色列表</a>
+        </div>
+    </nav>
+
+    <div class="container" id="articleContainer">
+        <div style="text-align:center; padding: 50px;">加载中...</div>
+    </div>
+
+    <script>
+        (function() {
+            // 角色名到文件名的映射表 (因为URL参数是中文，文件名建议用拼音或英文)
+            const fileNameMap = {
+                "多尼米克": "dominic",
+                "卜不见": "bubujian",
+                "思佩丝": "spes",
+                "奥德拉": "aodela",
+                "德斯蒂尼": "destine",
+                "赛尔维娜": "selvina",
+                "严缨": "yanying"
+            };
+
+            async function init() {
+                const params = new URLSearchParams(window.location.search);
+                const charName = params.get('name');
+                const container = document.getElementById('articleContainer');
+
+                if (!charName) {
+                    container.innerHTML = '<div class="error-message">未指定角色名称。<br><a href="characters.html">返回角色列表</a></div>';
+                    return;
+                }
+
+                const decodedName = decodeURIComponent(charName);
+                document.title = `${decodedName} - 故事`;
+
+                const fileId = fileNameMap[decodedName];
+                
+                if (!fileId) {
+                     container.innerHTML = `<div class="error-message">未找到 "${decodedName}" 的文章配置。</div>`;
+                     return;
+                }
+
+                try {
+                    // 显示加载状态
+                    container.innerHTML = `<div style="text-align:center; padding: 50px;">正在加载文章...</div>`;
+                    
+                    // Fetch 获取 Markdown 文件
+                    const response = await fetch(`./articles/${fileId}.md`);
+                    
+                    if (!response.ok) {
+                        throw new Error(`无法加载文章 (HTTP ${response.status})`);
+                    }
+                    
+                    const markdownText = await response.text();
+                    
+                    // 使用 marked 库将 Markdown 转换为 HTML
+                    // marked.parse 是 marked.js v4+ 的用法
+                    const htmlContent = marked.parse(markdownText);
+
+                    container.innerHTML = `
+                        <a href="javascript:history.back()" class="back-btn">← 返回上一页</a>
+                        <h1>${decodedName} - 角色故事</h1>
+                        <div class="article-content">
+                            ${htmlContent}
+                        </div>
+                    `;
+                } catch (error) {
+                    console.error(error);
+                    container.innerHTML = `
+                        <a href="javascript:history.back()" class="back-btn">← 返回上一页</a>
+                        <div class="error-message">
+                            加载文章失败: ${error.message}<br>
+                            请确保存在文件: ./articles/${fileId}.md
+                        </div>`;
+                }
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+        })();
+    </script>
+</body>
+</html>

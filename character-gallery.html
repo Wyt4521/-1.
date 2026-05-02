@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>角色图鉴 - Yggdrasil</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #ffffff;
+            background-image: url('./images/indexBackground.png');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: #333;
+        }
+
+        .top-nav {
+            background: rgba(29, 2, 44, 0.9);
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .top-nav .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .top-nav-links a {
+            color: #ededed;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            min-height: 80vh;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #907787;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .back-btn:hover {
+            color: #1d022c;
+        }
+
+        h1 {
+            color: #1d022c;
+            text-align: center;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .gallery-item {
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .gallery-caption {
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            background: #fafafa;
+        }
+
+        .error-message {
+            text-align: center;
+            color: red;
+            font-size: 20px;
+            margin-top: 50px;
+        }
+        
+        .placeholder-text {
+            text-align: center;
+            color: #888;
+            padding: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="top-nav">
+        <a href="index.html" class="logo">MUNE</a>
+        <div class="top-nav-links">
+            <a href="index.html">首页</a>
+            <a href="characters.html">返回角色列表</a>
+        </div>
+    </nav>
+
+    <div class="container" id="galleryContainer">
+        <div style="text-align:center; padding: 50px;">加载中...</div>
+    </div>
+
+    <script>
+        (function() {
+            // 【配置区】在此处添加角色的图片数据
+            // key: 角色中文名, value: 图片对象数组 { src: 路径, caption: 描述 }
+            const characterImages = {
+                "卜不见": [
+                    //{ src: "./images/gallery/bubujian_1.jpg", caption: "酒馆畅饮" },
+                    //{ src: "./images/gallery/bubujian_2.png", caption: "战斗姿态" },
+                    { src: "./images/avatars/bubujian.png", caption: "头像" }
+                ],
+                "多尼米克": [
+                    { src: "./images/gallery/dominic_1.jpg", caption: "立绘" },
+                   
+                ],
+                 "赛尔菲娜": [
+                    { src: "./images/gallery/selvina_1.jpg", caption: "酒馆畅饮" },
+                    { src: "./images/gallery/selvina_2.jpg", caption: "战斗姿态" },
+                    { src: "./images/avatars/selvina.png", caption: "标准立绘" }
+                ],
+                "严缨": [
+                    { src: "./images/gallery/yanying_1.jpg", caption: "立绘" }, 
+                ],
+                "德斯蒂尼": [
+                    { src: "./images/gallery/destine_1.jpg", caption: "酒馆畅饮" },
+                    { src: "./images/gallery/destine_2.jpg", caption: "战斗姿态" },
+                    { src: "./images/avatars/destine.png", caption: "标准立绘" }
+                ],
+                // 如果某个角色没有额外图片，可以留空数组 [] 或不写
+            };
+
+            function init() {
+                const params = new URLSearchParams(window.location.search);
+                const charName = params.get('name');
+                const container = document.getElementById('galleryContainer');
+
+                if (!charName) {
+                    container.innerHTML = '<div class="error-message">未指定角色名称。<br><a href="characters.html">返回角色列表</a></div>';
+                    return;
+                }
+
+                const decodedName = decodeURIComponent(charName);
+                document.title = `${decodedName} - 图鉴`;
+
+                // 获取该角色的图片列表
+                const images = characterImages[decodedName] || [];
+                
+                let imagesHtml = '';
+                
+                if (images.length > 0) {
+                    images.forEach(img => {
+                        // onerror 处理图片加载失败的情况
+                        imagesHtml += `
+                            <div class="gallery-item">
+                                <img src="${img.src}" alt="${img.caption}" onerror="this.parentElement.style.display='none'">
+                                <div class="gallery-caption">${img.caption}</div>
+                            </div>
+                        `;
+                    });
+                } else {
+                    imagesHtml = `<p class="placeholder-text">暂无 ${decodedName} 的额外插画。<br>请联系管理员添加图片至 images/gallery/ 文件夹并在代码中配置。</p>`;
+                }
+
+                container.innerHTML = `
+                    <a href="javascript:history.back()" class="back-btn">← 返回上一页</a>
+                    <h1>${decodedName} - 图鉴</h1>
+                    <div class="gallery-grid">
+                        ${imagesHtml}
+                    </div>
+                `;
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+        })();
+    </script>
+</body>
+</html>
